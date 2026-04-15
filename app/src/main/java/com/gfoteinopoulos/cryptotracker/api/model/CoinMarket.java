@@ -29,10 +29,10 @@ public class CoinMarket {
     private double priceChangePercentage24h;
 
     @SerializedName("high_24h")
-    private double high24h;
+    private int high24h;
 
     @SerializedName("low_24h")
-    private double low24h;
+    private int low24h;
 
     @SerializedName("last_updated")
     private String lastUpdated;
@@ -51,8 +51,8 @@ public class CoinMarket {
     public double getMarketCap() {return marketCap;}
     public double getTotalVolume() {return totalVolume;}
     public double getPriceChangePercentage24h() {return priceChangePercentage24h;}
-    public double getHigh24h() {return high24h;}
-    public double getLow24h() {return low24h;}
+    public int getHigh24h() {return high24h;}
+    public int getLow24h() {return low24h;}
     public String getLastUpdated() {return lastUpdated;}
     public int getMarketCapRank() {return marketCapRank;}
     public SparklineData getSparkline() {return sparkline;}
