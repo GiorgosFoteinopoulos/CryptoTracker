@@ -12,8 +12,6 @@ import com.gfoteinopoulos.cryptotracker.api.model.CoinDetail;
 import com.gfoteinopoulos.cryptotracker.api.model.CoinMarket;
 import com.gfoteinopoulos.cryptotracker.database.AppDatabase;
 import com.gfoteinopoulos.cryptotracker.database.dao.CoinDao;
-import com.gfoteinopoulos.cryptotracker.database.AppDatabase;
-import com.gfoteinopoulos.cryptotracker.database.dao.CoinDao;
 import com.gfoteinopoulos.cryptotracker.database.dao.PortfolioDao;
 import com.gfoteinopoulos.cryptotracker.database.dao.WatchlistDao;
 import com.gfoteinopoulos.cryptotracker.database.entity.Coin;
@@ -111,9 +109,9 @@ public class CoinRepository {
                     market.getMarketCap(),
                     market.getTotalVolume(),
                     market.getPriceChangePercentage24h(),
+                    market.getMarketCapRank(),
                     market.getHigh24h(),
                     market.getLow24h(),
-                    market.getMarketCapRank(),
                     System.currentTimeMillis()
             );
             coins.add(coin);
@@ -167,6 +165,9 @@ public class CoinRepository {
 
     public void deletePortfolioEntry(Portfolio portfolio) {
         AsyncTask.execute(() -> portfolioDao.deletePortfolioEntry(portfolio));
+    }
+    public LiveData<Boolean> isCoinInPortfolio(String coinId) {
+        return portfolioDao.isCoinInPortfolio(coinId);
     }
     }
 
