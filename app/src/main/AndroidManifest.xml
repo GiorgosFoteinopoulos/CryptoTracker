@@ -24,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.search.SearchActivity"/>
+        <activity android:name=".ui.watchlist.WatchlistActivity"/>
+        <activity android:name=".ui.detail.CoinDetailActivity"/>
     </application>
 
 </manifest>
