@@ -72,6 +72,9 @@ public class WatchlistAdapter extends ListAdapter<Watchlist, WatchlistAdapter.Wa
                     listener.onWatchlistClick(currentWatchlist);
                 }
             });
+            itemView.setOnLongClickListener(v -> {
+                return false;
+            });
         }
 
         public void bind(Watchlist watchlist) {
