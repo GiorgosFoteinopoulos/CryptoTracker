@@ -16,4 +16,6 @@
     <color name="loss_red">#BA1A1A</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="toolbar_dark">#0A0E1A</color>
+    <color name="surface_dark">#2D2D33</color>
 </resources>
