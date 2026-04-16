@@ -43,6 +43,10 @@ public class WatchlistViewModel extends  AndroidViewModel {
         return repository.getCoinsInWatchlist(watchlistId);
     }
 
+    public LiveData<List<com.gfoteinopoulos.cryptotracker.database.entity.WatchlistCoin>> getWatchlistCoinsRaw(int watchlistId) {
+        return repository.getWatchlistCoinsRaw(watchlistId);
+    }
+
     public LiveData<Boolean> isCoinInWatchlist(int watchlistId, String coinId) {
         return repository.isCoinInWatchlist(watchlistId, coinId);
     }

@@ -9,7 +9,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.gfoteinopoulos.cryptotracker.database.entity.Coin;
 import com.gfoteinopoulos.cryptotracker.database.entity.Portfolio;
+import com.gfoteinopoulos.cryptotracker.database.entity.Watchlist;
 import com.gfoteinopoulos.cryptotracker.repository.CoinRepository;
+
+import java.util.List;
 
 public class CoinDetailViewModel extends AndroidViewModel {
 
@@ -38,6 +41,13 @@ public class CoinDetailViewModel extends AndroidViewModel {
     public LiveData<Boolean> getIsCoinInPortfolio() { return isCoinInPortfolio; }
     public LiveData<String> getErrorMessage() { return errorMessage; }
     public LiveData<Boolean> getIsLoading() { return isLoading; }
+
+    public LiveData<List<Watchlist>> getAllWatchlists() {
+        return repository.getAllWatchlists();
+    }
+    public void addCoinToWatchlist(int watchlistId, String coinId) {
+        repository.addCoinToWatchlist(watchlistId, coinId);
+    }
 
     public void addToPortfolio(String coinId, double amount, double buyPrice) {
         repository.insertPortfolioEntry(coinId, amount, buyPrice);

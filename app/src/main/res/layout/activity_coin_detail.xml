@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +17,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"/>
-
         </com.google.android.material.appbar.AppBarLayout>
 
         <ImageView
@@ -45,7 +43,6 @@
             android:textSize="32sp"
             android:textStyle="bold"
             android:layout_marginTop="8dp"/>
-
         <TextView
             android:id="@+id/coinChange"
             android:layout_width="wrap_content"
@@ -55,14 +52,12 @@
             android:layout_marginTop="4dp"/>
 
         <androidx.cardview.widget.CardView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp">
-
-            <LinearLayout
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -72,106 +67,101 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Market Stats"
-                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
+                    android:layout_weight="1"
+                    android:text="Market Cap"
+                    android:textColor="@android:color/darker_gray"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Market Cap"
-                        android:textColor="@android:color/darker_gray"/>
-
-                    <TextView
-                        android:id="@+id/coinMarketCap"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/coinMarketCap"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="24h Volume"
-                        android:textColor="@android:color/darker_gray"/>
-
-                    <TextView
-                        android:id="@+id/coinVolume"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="24h High"
-                        android:textColor="@android:color/darker_gray"/>
-
-                    <TextView
-                        android:id="@+id/coinHigh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="24h Low"
-                        android:textColor="@android:color/darker_gray"/>
-
-                    <TextView
-                        android:id="@+id/coinLow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"/>
-
-                </LinearLayout>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="24h Volume"
+                    android:textColor="@android:color/darker_gray"/>
+                <TextView
+                    android:id="@+id/coinVolume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="24h High"
+                    android:textColor="@android:color/darker_gray"/>
+
+                <TextView
+                    android:id="@+id/coinHigh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="24h Low"
+                    android:textColor="@android:color/darker_gray"/>
+
+                <TextView
+                    android:id="@+id/coinLow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </LinearLayout>
+
 
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/fabAddToPortfolio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:contentDescription="Add to portfolio"
             app:srcCompat="@android:drawable/ic_input_add"/>
-
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

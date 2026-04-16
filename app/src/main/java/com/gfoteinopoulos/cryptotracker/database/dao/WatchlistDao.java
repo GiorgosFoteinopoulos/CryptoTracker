@@ -28,6 +28,9 @@ public interface WatchlistDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addCoinToWatchlist(WatchlistCoin watchlistCoin);
 
+    @Query("SELECT * FROM watchlist_coins WHERE watchlistId = :watchlistId")
+    LiveData<List<WatchlistCoin>> getWatchlistCoinsRaw(int watchlistId);
+
     @Query("DELETE FROM watchlist_coins WHERE watchlistId = :watchlistId AND coinId = :coinId")
     void removeCoinFromWatchlist(int watchlistId, String coinId);
 
