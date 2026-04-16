@@ -82,6 +82,28 @@ public class CoinAdapter extends ListAdapter<Coin, CoinAdapter.CoinViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CoinViewHolder holder, int position) {
         holder.bind(getItem(position));
+        setAnimation(holder.itemView, position);
+    }
+    private int lastPosition = -1;
+
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            android.animation.ObjectAnimator animator = android.animation.ObjectAnimator
+                    .ofFloat(viewToAnimate, "alpha", 0f, 1f);
+            animator.setDuration(400);
+            animator.start();
+
+            android.animation.ObjectAnimator slideAnimator = android.animation.ObjectAnimator
+                    .ofFloat(viewToAnimate, "translationY", 50f, 0f);
+            slideAnimator.setDuration(400);
+            slideAnimator.start();
+
+            lastPosition = position;
+        }
+    }
+
+    public void resetAnimation() {
+        lastPosition = -1;
     }
     public static class CoinViewHolder extends RecyclerView.ViewHolder {
         private final TextView coinName;

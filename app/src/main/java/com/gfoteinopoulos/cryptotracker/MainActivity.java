@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoi
         adapter = new CoinAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        recyclerView.setItemAnimator(new androidx.recyclerview.widget.DefaultItemAnimator());
 
         swipeRefresh.setOnRefreshListener(() -> {
             viewModel.fetchTopCoins();
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoi
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                adapter.resetAnimation();
                 switch (tab.getPosition()) {
                     case 0:
                         viewModel.getAllCoins().observe(MainActivity.this,
