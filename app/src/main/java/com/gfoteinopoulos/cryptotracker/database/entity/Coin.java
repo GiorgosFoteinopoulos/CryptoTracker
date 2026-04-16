@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
 
+import java.util.List;
+
 @Entity(tableName = "Coins")
 public class Coin {
 
@@ -22,6 +24,8 @@ public class Coin {
     private double high24h;
     private double low24h;
     private long lastUpdated;
+
+    private List<Double> sparklineData;
 
     public Coin(@NonNull String id, String symbol, String name, String image, double currentPrice, double marketCap, double totalVolume, double priceChangePercentage24h, int marketCapRank, double high24h, double low24h, long lastUpdated) {
         this.id = id;
@@ -43,6 +47,13 @@ public class Coin {
         return id;
 
     }
+    public List<Double> getSparklineData() {
+        return sparklineData;
+    }
+    public void setSparklineData(List<Double> sparklineData) {
+        this.sparklineData = sparklineData;
+    }
+
 
     public String getSymbol() {
         return symbol;
