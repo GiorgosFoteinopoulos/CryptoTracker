@@ -13,12 +13,6 @@ import androidx.room.ForeignKey;
                         parentColumns = "id",
                         childColumns = "watchlistId",
                         onDelete = ForeignKey.CASCADE
-                ),
-                @ForeignKey(
-                        entity = Coin.class,
-                        parentColumns = "id",
-                        childColumns = "coinId",
-                        onDelete = ForeignKey.CASCADE
                 )
         }
 )

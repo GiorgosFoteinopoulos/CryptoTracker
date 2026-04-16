@@ -115,6 +115,7 @@ public class CoinRepository {
                     System.currentTimeMillis()
             );
             coins.add(coin);
+            android.util.Log.d("CryptoTracker_Debug", "Storing coin with id: " + market.getId());
         }
         return coins;
 
@@ -132,6 +133,10 @@ public class CoinRepository {
         return watchlistDao.isCoinInWatchlist(watchlistId, coinId);
     }
 
+    public LiveData<List<com.gfoteinopoulos.cryptotracker.database.entity.WatchlistCoin>> getWatchlistCoinsRaw(int watchlistId) {
+        return watchlistDao.getWatchlistCoinsRaw(watchlistId);
+    }
+
     public void insertWatchlist(String name) {
         Watchlist watchlist = new Watchlist(name, System.currentTimeMillis());
         AsyncTask.execute(() -> watchlistDao.insertWatchlist(watchlist));
@@ -143,9 +148,12 @@ public class CoinRepository {
     }
 
     public void addCoinToWatchlist(int watchlistId, String coinId) {
-        WatchlistCoin watchlistCoin = new WatchlistCoin(watchlistId, coinId, System.currentTimeMillis());
-        AsyncTask.execute(() ->
-                watchlistDao.addCoinToWatchlist(watchlistCoin));;
+        WatchlistCoin watchlistCoin = new WatchlistCoin(
+                watchlistId, coinId, System.currentTimeMillis());
+        AsyncTask.execute(() -> {
+                watchlistDao.addCoinToWatchlist(watchlistCoin);
+
+        });
     }
 
     public void removeCoinFromWatchlist(int watchlistId,String coinId) {

@@ -13,10 +13,12 @@ import com.gfoteinopoulos.cryptotracker.database.entity.Coin;
 import com.gfoteinopoulos.cryptotracker.database.entity.Portfolio;
 import com.gfoteinopoulos.cryptotracker.database.entity.Watchlist;
 import com.gfoteinopoulos.cryptotracker.database.entity.WatchlistCoin;
+import androidx.annotation.NonNull;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 @Database(
         entities = {Coin.class, Watchlist.class, WatchlistCoin.class, Portfolio.class},
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -30,8 +32,12 @@ public abstract class AppDatabase extends RoomDatabase {
         if (instance == null) {
             synchronized (AppDatabase.class) {
                 if (instance == null) {
-                    instance = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, "cryptotracker_db")
+                    instance = Room.databaseBuilder(
+                                    context.getApplicationContext(),
+                                    AppDatabase.class,
+                                    "cryptotracker_db"
+                            )
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

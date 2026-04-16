@@ -35,7 +35,7 @@ public class WatchlistActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         adapter = new WatchlistAdapter(watchlist -> {
-            android.widget.Toast.makeText(this, watchlist.getName(), android.widget.Toast.LENGTH_SHORT).show();
+            WatchlistDetailActivity.start(this, watchlist.getId(), watchlist.getName());
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
