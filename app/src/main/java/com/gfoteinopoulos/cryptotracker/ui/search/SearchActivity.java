@@ -2,7 +2,6 @@ package com.gfoteinopoulos.cryptotracker.ui.search;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +15,7 @@ import com.gfoteinopoulos.cryptotracker.database.entity.Coin;
 import com.gfoteinopoulos.cryptotracker.ui.market.CoinAdapter;
 import com.gfoteinopoulos.cryptotracker.viewmodel.SearchViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 
 public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnCoinClickListener {
     private SearchViewModel viewModel;
@@ -45,7 +45,7 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        ImageButton toggleButton = findViewById(R.id.toggleViewButton);
+        MaterialButton toggleButton = findViewById(R.id.toggleViewButton);
         toggleButton.setOnClickListener(v -> toggleView());
 
         SearchView searchView = findViewById(R.id.searchView);
@@ -66,6 +66,7 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
 
     private void toggleView() {
         isGridView = !isGridView;
+        MaterialButton toggleButton = findViewById(R.id.toggleViewButton);
         if (isGridView) {
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
             adapter.setViewType(CoinAdapter.VIEW_TYPE_GRID);
