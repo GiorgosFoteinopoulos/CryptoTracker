@@ -1,9 +1,12 @@
 package com.gfoteinopoulos.cryptotracker.ui.watchlist;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,8 +25,9 @@ public class WatchlistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watchlist);
 
-        setupViews();
         setupViewModel();
+        setupViews();
+
     }
 
     private void setupViews() {
@@ -39,6 +43,26 @@ public class WatchlistActivity extends AppCompatActivity {
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                com.gfoteinopoulos.cryptotracker.database.entity.Watchlist watchlist =
+                        adapter.getCurrentList().get(position);
+                viewModel.deleteWatchlist(watchlist);
+                android.widget.Toast.makeText(WatchlistActivity.this,
+                        watchlist.getName() + " deleted",
+                        Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        new ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> showCreateWatchlistDialog());
