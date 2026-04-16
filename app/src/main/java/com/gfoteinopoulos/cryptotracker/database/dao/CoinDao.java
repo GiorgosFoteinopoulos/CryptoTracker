@@ -27,6 +27,9 @@ public interface CoinDao {
     @Delete
     void deleteCoin(Coin coin);
 
+    @Query("SELECT * FROM coins WHERE currentPrice >= :minPrice AND currentPrice <= :maxPrice ORDER BY marketCapRank ASC")
+    LiveData<List<Coin>> getCoinsByPriceRange(double minPrice, double maxPrice);
+
     @Query("SELECT * FROM coins ORDER BY marketCapRank ASC")
     LiveData<List<Coin>> getAllCoins();
 
