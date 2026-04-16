@@ -3,6 +3,7 @@ package com.gfoteinopoulos.cryptotracker;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoi
     private ProgressBar progressBar;
     private TextView errorText;
 
+    private LinearLayout emptyState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoi
         swipeRefresh = findViewById(R.id.swipeRefresh);
         progressBar = findViewById(R.id.progressBar);
         errorText = findViewById(R.id.errorText);
+        emptyState = findViewById(R.id.emptyState);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         adapter = new CoinAdapter(this);
@@ -62,14 +66,19 @@ public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoi
         viewModel = new ViewModelProvider(this).get(MarketViewModel.class);
 
         viewModel.getAllCoins().observe(this, coins -> {
-            if (coins != null) {
+            if (coins != null && !coins.isEmpty()) {
                 adapter.submitList(coins);
+                emptyState.setVisibility(View.GONE);
+            } else {
+                adapter.submitList(null);
+                emptyState.setVisibility(View.VISIBLE);
             }
         });
         viewModel.getErrorMessage().observe(this, error -> {
             if (error != null && !error.isEmpty()) {
                 errorText.setVisibility(View.VISIBLE);
                 errorText.setText(error);
+                emptyState.setVisibility(View.GONE);
             } else {
                 errorText.setVisibility(View.GONE);
             }
