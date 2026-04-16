@@ -6,6 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.gfoteinopoulos.cryptotracker.database.converter.Converters;
 import com.gfoteinopoulos.cryptotracker.database.dao.CoinDao;
 import com.gfoteinopoulos.cryptotracker.database.dao.PortfolioDao;
 import com.gfoteinopoulos.cryptotracker.database.dao.WatchlistDao;
@@ -15,7 +16,7 @@ import com.gfoteinopoulos.cryptotracker.database.entity.Watchlist;
 import com.gfoteinopoulos.cryptotracker.database.entity.WatchlistCoin;
 import androidx.annotation.NonNull;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-
+@androidx.room.TypeConverters(Converters.class)
 @Database(
         entities = {Coin.class, Watchlist.class, WatchlistCoin.class, Portfolio.class},
         version = 2,

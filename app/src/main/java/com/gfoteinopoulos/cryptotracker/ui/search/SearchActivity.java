@@ -73,12 +73,20 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
         isGridView = !isGridView;
         MaterialButton toggleButton = findViewById(R.id.toggleViewButton);
         if (isGridView) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+            int columns = calculateColumns();
+            recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
             adapter.setViewType(CoinAdapter.VIEW_TYPE_GRID);
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter.setViewType(CoinAdapter.VIEW_TYPE_LIST);
         }
+    }
+
+    private int calculateColumns() {
+        android.util.DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int columns = (int) (dpWidth / 180);
+        return Math.max(2, columns);
     }
 
     private void setupViewModel() {
