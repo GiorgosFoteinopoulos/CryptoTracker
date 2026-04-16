@@ -64,6 +64,10 @@ public class CoinRepository {
         return coinDao.searchCoins("%" + query + "%");
     }
 
+    public LiveData<List<Coin>> getCoinsByPriceRange(double minPrice, double maxPrice) {
+        return coinDao.getCoinsByPriceRange(minPrice, maxPrice);
+    }
+
     public LiveData<List<Coin>> getTopGainers() {
         return coinDao.getTopGainers();
     }

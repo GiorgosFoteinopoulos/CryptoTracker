@@ -1,7 +1,9 @@
 package com.gfoteinopoulos.cryptotracker.ui.search;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +50,9 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
         MaterialButton toggleButton = findViewById(R.id.toggleViewButton);
         toggleButton.setOnClickListener(v -> toggleView());
 
+        MaterialButton filterButton = findViewById(R.id.filterButton);
+        filterButton.setOnClickListener(v -> showPriceFilterDialog());
+
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -83,6 +88,49 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
                 adapter.submitList(coins);
             }
         });
+    }
+
+    private void showPriceFilterDialog() {
+        android.app.AlertDialog.Builder builder =
+                new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Filter by Price");
+
+        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(48, 24, 48, 24);
+
+        android.widget.EditText minPriceInput = new android.widget.EditText(this);
+        minPriceInput.setHint("Min Price (USD)");
+        minPriceInput.setInputType(
+                android.text.InputType.TYPE_CLASS_NUMBER |
+                        android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        layout.addView(minPriceInput);
+        android.widget.EditText maxPriceInput = new android.widget.EditText(this);
+        maxPriceInput.setHint("Max Price (USD)");
+        maxPriceInput.setInputType(
+                android.text.InputType.TYPE_CLASS_NUMBER |
+                        android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        layout.addView(maxPriceInput);
+
+        builder.setView(layout);
+
+        builder.setPositiveButton("Apply", (dialog, which) -> {
+            String minStr = minPriceInput.getText().toString().trim();
+            String maxStr = maxPriceInput.getText().toString().trim();
+
+            double min = minStr.isEmpty() ? 0 : Double.parseDouble(minStr);
+            double max = maxStr.isEmpty() ? Double.MAX_VALUE : Double.parseDouble(maxStr);
+
+            viewModel.getCoinsByPriceRange(min, max).observe(this, coins -> {
+                if (coins != null) {
+                    adapter.submitList(coins);
+                }
+            });
+        });
+        builder.setNegativeButton("Clear", (dialog, which) -> {
+            viewModel.setSearchQuery("");
+        });
+        builder.show();
     }
 
     @Override
