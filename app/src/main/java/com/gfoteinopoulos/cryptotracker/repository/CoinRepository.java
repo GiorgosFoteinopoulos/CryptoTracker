@@ -118,6 +118,9 @@ public class CoinRepository {
                     market.getLow24h(),
                     System.currentTimeMillis()
             );
+            if (market.getSparkline() != null) {
+                coin.setSparklineData(market.getSparkline().getPrice());
+            }
             coins.add(coin);
             android.util.Log.d("CryptoTracker_Debug", "Storing coin with id: " + market.getId());
         }
