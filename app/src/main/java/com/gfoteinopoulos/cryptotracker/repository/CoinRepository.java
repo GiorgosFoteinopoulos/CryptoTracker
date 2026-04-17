@@ -163,6 +163,12 @@ public class CoinRepository {
         });
     }
 
+    public void fetchCoinDetail(String coinId,
+                                retrofit2.Callback<com.gfoteinopoulos.cryptotracker.api.model.CoinDetail> callback) {
+        api.getCoinDetail(coinId, false, false, true, false, false, true)
+                .enqueue(callback);
+    }
+
     public void removeCoinFromWatchlist(int watchlistId,String coinId) {
         AsyncTask.execute(() -> watchlistDao.removeCoinFromWatchlist(watchlistId, coinId));
     }

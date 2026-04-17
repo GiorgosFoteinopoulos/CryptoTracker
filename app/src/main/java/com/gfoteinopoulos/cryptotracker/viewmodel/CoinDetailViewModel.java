@@ -48,6 +48,10 @@ public class CoinDetailViewModel extends AndroidViewModel {
     public void addCoinToWatchlist(int watchlistId, String coinId) {
         repository.addCoinToWatchlist(watchlistId, coinId);
     }
+    public void fetchCoinDetail(String coinId,
+                                retrofit2.Callback<com.gfoteinopoulos.cryptotracker.api.model.CoinDetail> callback) {
+        repository.fetchCoinDetail(coinId, callback);
+    }
 
     public void addToPortfolio(String coinId, double amount, double buyPrice) {
         repository.insertPortfolioEntry(coinId, amount, buyPrice);
