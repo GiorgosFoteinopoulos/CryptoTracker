@@ -63,7 +63,7 @@
                         android:text="Live Market Data"
                         android:fontFamily="sans-serif-light"
                         android:letterSpacing="0.1"
-                        android:textSize="11sp"
+                        android:textSize="13sp"
                         android:textColor="#B3FFFFFF"/>
 
                 </LinearLayout>
