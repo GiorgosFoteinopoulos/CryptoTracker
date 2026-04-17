@@ -2,6 +2,7 @@ package com.gfoteinopoulos.cryptotracker.ui.detail;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import coil.Coil;
 import coil.request.ImageRequest;
 
+import com.gfoteinopoulos.cryptotracker.api.model.CoinDetail;
 import com.gfoteinopoulos.cryptotracker.database.entity.Watchlist;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,6 +24,10 @@ import java.util.List;
 
 public class CoinDetailActivity extends AppCompatActivity {
     private CoinDetailViewModel viewModel;
+
+    private TextView coinDescription;
+
+    private androidx.cardview.widget.CardView descriptionCard;
     private List<com.gfoteinopoulos.cryptotracker.database.entity.Watchlist> watchlists;
 
     @Override
@@ -41,7 +47,44 @@ public class CoinDetailActivity extends AppCompatActivity {
 
         if (coinId != null) {
             viewModel.setCoinId(coinId);
+
         }
+
+        coinDescription = findViewById(R.id.coinDescription);
+        descriptionCard = findViewById(R.id.descriptionCard);
+
+        findViewById(R.id.infoButton).setOnClickListener(v -> {
+            if (descriptionCard.getVisibility() == View.VISIBLE) {
+                descriptionCard.setVisibility(View.GONE);
+            } else {
+                descriptionCard.setVisibility(View.VISIBLE);
+            }
+        });
+
+        viewModel.fetchCoinDetail(coinId, new retrofit2.Callback<com.gfoteinopoulos.cryptotracker.api.model.CoinDetail>() {
+
+                    @Override
+                    public void onResponse(retrofit2.Call<com.gfoteinopoulos.cryptotracker.api.model.CoinDetail> call,
+                                           retrofit2.Response<com.gfoteinopoulos.cryptotracker.api.model.CoinDetail> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.gfoteinopoulos.cryptotracker.api.model.CoinDetail detail = response.body();
+                            if (detail.getDescription() != null &&
+                                    detail.getDescription().getEn() != null &&
+                                    !detail.getDescription().getEn().isEmpty()) {
+                                String description = detail.getDescription().getEn();
+                                description = description.replaceAll("<[^>]*>", "");
+                                final String cleanDescription = description;
+                                runOnUiThread(() -> coinDescription.setText(cleanDescription));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.gfoteinopoulos.cryptotracker.api.model.CoinDetail> call,
+                                          Throwable t) {
+                        android.util.Log.e("CryptoTracker", "Failed to fetch coin detail: " + t.getMessage());
+                    }
+                });
 
         viewModel.getAllWatchlists().observe(this, result -> {
             this.watchlists = result;
