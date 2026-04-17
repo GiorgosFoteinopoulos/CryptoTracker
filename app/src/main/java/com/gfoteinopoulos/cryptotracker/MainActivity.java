@@ -23,6 +23,8 @@ import com.gfoteinopoulos.cryptotracker.ui.search.SearchActivity;
 import com.gfoteinopoulos.cryptotracker.ui.watchlist.WatchlistActivity;
 import com.gfoteinopoulos.cryptotracker.viewmodel.MarketViewModel;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoinClickListener {
 
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoi
 
         viewModel.getAllCoins().observe(this, coins -> {
             if (coins != null && !coins.isEmpty()) {
-                adapter.submitList(coins);
+                adapter.submitListWithHeader("Top Cryptocurrencies", coins);
                 emptyState.setVisibility(View.GONE);
             } else {
                 adapter.submitList(null);
@@ -100,15 +102,15 @@ public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoi
                 switch (tab.getPosition()) {
                     case 0:
                         viewModel.getAllCoins().observe(MainActivity.this,
-                                coins -> adapter.submitList(coins));
+                                coins -> adapter.submitListWithHeader("Top Cryptocurrencies",coins));
                         break;
                     case 1:
                         viewModel.getTopGainers().observe(MainActivity.this,
-                                coins -> adapter.submitList(coins));
+                                coins -> adapter.submitListWithHeader("Top Gainers",coins));
                         break;
                     case 2:
                         viewModel.getTopLosers().observe(MainActivity.this,
-                                coins -> adapter.submitList(coins));
+                                coins -> adapter.submitListWithHeader("Top Losers",coins));
                         break;
                 }
             }

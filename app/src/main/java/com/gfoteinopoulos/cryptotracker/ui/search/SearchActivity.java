@@ -78,7 +78,7 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
             adapter.setViewType(CoinAdapter.VIEW_TYPE_GRID);
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            adapter.setViewType(CoinAdapter.VIEW_TYPE_LIST);
+            adapter.setViewType(CoinAdapter.VIEW_TYPE_COIN);
         }
     }
 
@@ -91,9 +91,9 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
 
     private void setupViewModel() {
         viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-        viewModel.getSearchResults().observe(this, coins -> {
+        viewModel.getSearchResults().observe(this, coins-> {
             if (coins != null) {
-                adapter.submitList(coins);
+                adapter.submitListWithHeader("Search Results" , coins);
             }
         });
     }
@@ -131,7 +131,7 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
 
             viewModel.getCoinsByPriceRange(min, max).observe(this, coins -> {
                 if (coins != null) {
-                    adapter.submitList(coins);
+                    adapter.submitListWithHeader("Filtered Results", coins);
                 }
             });
         });
