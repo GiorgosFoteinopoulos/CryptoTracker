@@ -26,6 +26,8 @@ public class CoinDetailActivity extends AppCompatActivity {
     private CoinDetailViewModel viewModel;
 
     private TextView coinDescription;
+    private TextView coinAth;
+    private TextView coinAtl;
 
     private androidx.cardview.widget.CardView descriptionCard;
     private List<com.gfoteinopoulos.cryptotracker.database.entity.Watchlist> watchlists;
@@ -52,6 +54,9 @@ public class CoinDetailActivity extends AppCompatActivity {
 
         coinDescription = findViewById(R.id.coinDescription);
         descriptionCard = findViewById(R.id.descriptionCard);
+        coinAth = findViewById(R.id.coinAth);
+        coinAtl = findViewById(R.id.coinAtl);
+
 
         findViewById(R.id.infoButton).setOnClickListener(v -> {
             if (descriptionCard.getVisibility() == View.VISIBLE) {
@@ -75,6 +80,20 @@ public class CoinDetailActivity extends AppCompatActivity {
                                 description = description.replaceAll("<[^>]*>", "");
                                 final String cleanDescription = description;
                                 runOnUiThread(() -> coinDescription.setText(cleanDescription));
+                            }
+                            if (detail.getMarketData() != null) {
+                                java.util.Map<String, Double> ath = detail.getMarketData().getAth();
+                                java.util.Map<String, Double> atl = detail.getMarketData().getAtl();
+
+                                if (ath != null && ath.containsKey("usd")) {
+                                    runOnUiThread(() -> coinAth.setText(
+                                            String.format("$%,.2f", ath.get("usd"))));
+                                }
+
+                                if (atl != null && atl.containsKey("usd")) {
+                                    runOnUiThread(() -> coinAtl.setText(
+                                            String.format("$%,.2f", atl.get("usd"))));
+                                }
                             }
                         }
                     }
