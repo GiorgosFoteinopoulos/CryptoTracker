@@ -32,6 +32,8 @@ public class CoinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private int coinViewType = VIEW_TYPE_COIN;
     private int lastPosition = -1;
 
+    private boolean useDarkHeader = false;
+
     public CoinAdapter (OnCoinClickListener listener) {
         this.listener = listener;
     }
@@ -42,6 +44,11 @@ public class CoinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public void setViewType(int viewType) {
         this.coinViewType = viewType;
+        notifyDataSetChanged();
+    }
+
+    public void setUseDarkHeader(boolean useDarkHeader) {
+        this.useDarkHeader = useDarkHeader;
         notifyDataSetChanged();
     }
 
@@ -94,7 +101,8 @@ public class CoinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == VIEW_TYPE_HEADER) {
-            View view = inflater.inflate(R.layout.item_header, parent, false);
+            int layoutId = useDarkHeader ? R.layout.item_header_dark : R.layout.item_header;
+            View view = inflater.inflate(layoutId, parent, false);
             return new HeaderViewHolder(view);
         } else if (viewType == VIEW_TYPE_GRID) {
             View view = inflater.inflate(R.layout.item_coin_grid, parent, false);

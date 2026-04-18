@@ -41,9 +41,13 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Search");
         }
+        toolbar.setNavigationIconTint(0xFFFFFFFF);
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+
 
         recyclerView = findViewById(R.id.recyclerView);
         adapter = new CoinAdapter(this);
+        adapter.setUseDarkHeader(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
@@ -54,6 +58,13 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
         filterButton.setOnClickListener(v -> showPriceFilterDialog());
 
         SearchView searchView = findViewById(R.id.searchView);
+        int searchTextId = searchView.getContext().getResources()
+                        .getIdentifier("android:id/search_src_text", null, null);
+        android.widget.TextView searchText = searchView.findViewById(searchTextId);
+        if (searchText != null) {
+            searchText.setHintTextColor(0xFFAAAAAA);
+            searchText.setTextColor(0xFFFFFFFF);
+        }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -93,7 +104,7 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
         viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         viewModel.getSearchResults().observe(this, coins-> {
             if (coins != null) {
-                adapter.submitListWithHeader("Search Results" , coins);
+                adapter.submitListWithHeader("Results" , coins);
             }
         });
     }

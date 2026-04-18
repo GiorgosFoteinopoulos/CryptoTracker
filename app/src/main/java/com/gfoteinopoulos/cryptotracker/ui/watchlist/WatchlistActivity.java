@@ -36,6 +36,8 @@ public class WatchlistActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        toolbar.setNavigationIconTint(0xFFFFFFFF);
+        toolbar.setTitleTextColor(0xFFFFFFFF);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         adapter = new WatchlistAdapter(watchlist -> {
