@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/surface_dark"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -11,37 +12,54 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
+
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/toolbar_dark">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/toggleViewButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            app:icon="@android:drawable/ic_dialog_dialer"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-            app:cornerRadius="8dp"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/filterButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginEnd="56dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                app:icon="@android:drawable/ic_menu_sort_by_size"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-                app:cornerRadius="8dp"/>
+                android:orientation="horizontal"
+                android:layout_marginEnd="8dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/filterButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    app:backgroundTint="@android:color/transparent"
+                    app:icon="@drawable/ic_filter"
+                    app:iconTint="#FFFFFF"
+                    app:iconTintMode="src_in"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    app:strokeWidth="0dp"
+                    app:cornerRadius="8dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/toggleViewButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    app:backgroundTint="@android:color/transparent"
+                    app:icon="@android:drawable/ic_dialog_dialer"
+                    app:iconTint="#FFFFFF"
+                    app:iconTintMode="src_in"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    app:strokeWidth="0dp"
+                    app:cornerRadius="8dp"/>
+            </LinearLayout>
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -52,7 +70,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:queryHint="Search coins..."/>
+        android:queryHint="Search coins..."
+        android:iconifiedByDefault="false"
+        android:background="@color/surface_dark"
+        android:textColorHint="#888888"
+        android:textColor="#FFFFFF"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

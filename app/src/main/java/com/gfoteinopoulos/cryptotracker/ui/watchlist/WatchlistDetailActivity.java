@@ -48,6 +48,9 @@ public class WatchlistDetailActivity extends AppCompatActivity implements CoinAd
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(watchlistName);
         }
+        toolbar.setNavigationIconTint(0xFFFFFFFF);
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         adapter = new CoinAdapter(this);
