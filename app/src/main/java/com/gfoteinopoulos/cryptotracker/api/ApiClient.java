@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import com.gfoteinopoulos.cryptotracker.api.interceptor.CacheInterceptor;
 import com.gfoteinopoulos.cryptotracker.api.interceptor.LoggingInterceptor;
 import com.gfoteinopoulos.cryptotracker.api.interceptor.RetryInterceptor;
 
@@ -26,6 +27,7 @@ public class ApiClient {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .cache(cache)
+                .addNetworkInterceptor(new CacheInterceptor())
                 .addInterceptor(new RetryInterceptor(MAX_RETRIES))
                 .addInterceptor(new LoggingInterceptor())
                 .connectTimeout(30, TimeUnit.SECONDS)

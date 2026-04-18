@@ -54,14 +54,16 @@ public class CoinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     public void submitList(List<Coin> coins) {
-        items = new ArrayList<>(coins);
+        items = coins == null ? new ArrayList<>() : new ArrayList<>(coins);
         notifyDataSetChanged();
     }
 
     public void submitListWithHeader(String header, List<Coin> coins) {
         items = new ArrayList<>();
         items.add(header);
-        items.addAll(coins);
+        if (coins != null) {
+            items.addAll(coins);
+        }
         notifyDataSetChanged();
     }
 
