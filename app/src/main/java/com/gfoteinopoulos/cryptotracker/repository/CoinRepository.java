@@ -86,7 +86,7 @@ public class CoinRepository {
                         if (response.isSuccessful() && response.body() != null) {
                             List<Coin> coins = convertToCoinEntities(response.body());
                             AsyncTask.execute(() -> coinDao.insertCoins(coins));
-                            ;
+
                         } else {
                             errorMessage.setValue("Failed to fetch coins: " + response.code());
                         }

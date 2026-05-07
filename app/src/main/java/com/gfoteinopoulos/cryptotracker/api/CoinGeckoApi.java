@@ -42,9 +42,6 @@ public interface CoinGeckoApi {
             @Query("sparkline") boolean sparkline
     );
 
-    @GET("search")
-    Call<List<CoinMarket>> searchCoins(
-            @Query("query") String query
-    );
+
 
 }
