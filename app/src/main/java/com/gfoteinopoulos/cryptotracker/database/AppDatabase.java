@@ -38,7 +38,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             "'coinId' TEXT NOT NULL, " +
                             "'addedAt' INTEGER NOT NULL, " +
                             "PRIMARY KEY('watchlistId', 'coinId'), " +
-                            "FOREIGN KEY('watchlistId') REFERENCES 'watchlists('id') " +
+                            "FOREIGN KEY(`watchlistId`) REFERENCES `watchlists`(`id`) " +
                             "ON DELETE CASCADE)");
                     database.execSQL("INSERT INTO 'watchlist_coins_new' " +
                             "SELECT * FROM 'watchlist_coins'");

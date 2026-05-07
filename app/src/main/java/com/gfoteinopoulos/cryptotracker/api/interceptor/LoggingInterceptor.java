@@ -33,7 +33,7 @@ public class LoggingInterceptor implements Interceptor{
         long duration = endTime - startTime;
 
         Log.d(TAG, "Received response: " + response.code() +
-                "for " + request.url() +
+                " for " + request.url() +
                 " in " + duration + "ms");
 
         return response;

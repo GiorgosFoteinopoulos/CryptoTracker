@@ -20,8 +20,6 @@ public class SearchViewModel  extends AndroidViewModel{
     private final LiveData<String> errorMessage;
     private final LiveData<Boolean> isLoading;
 
-    private double minPrice = 0;
-    private double maxPrice = Double.MAX_VALUE;
 
     public SearchViewModel(@NonNull Application application) {
         super(application);
@@ -60,8 +58,6 @@ public class SearchViewModel  extends AndroidViewModel{
     }
 
     public LiveData<List<Coin>> getCoinsByPriceRange(double minPrice, double maxPrice) {
-        this.minPrice = minPrice;
-        this.maxPrice = maxPrice;
         return repository.getCoinsByPriceRange(minPrice, maxPrice);
     }
 }
