@@ -1,17 +1,18 @@
 package com.gfoteinopoulos.cryptotracker.ui.watchlist;
 
 import android.view.LayoutInflater;
-import android.view.View;
+
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.gfoteinopoulos.cryptotracker.R;
+
 import com.gfoteinopoulos.cryptotracker.database.entity.Watchlist;
+import com.gfoteinopoulos.cryptotracker.databinding.ItemWatchlistBinding;
 
 public class WatchlistAdapter extends ListAdapter<Watchlist, WatchlistAdapter.WatchlistViewHolder> {
 
@@ -45,9 +46,9 @@ public class WatchlistAdapter extends ListAdapter<Watchlist, WatchlistAdapter.Wa
     @Override
     public WatchlistViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                   int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_watchlist, parent, false);
-        return new WatchlistViewHolder(view, listener);
+        ItemWatchlistBinding binding = ItemWatchlistBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false);
+        return new WatchlistViewHolder(binding, listener);
     }
 
     @Override
@@ -55,17 +56,18 @@ public class WatchlistAdapter extends ListAdapter<Watchlist, WatchlistAdapter.Wa
         holder.bind(getItem(position));
     }
 
-    public static class WatchlistViewHolder extends RecyclerView.ViewHolder {
+    public class WatchlistViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView watchlistName;
+        private final ItemWatchlistBinding binding;
+
         private final OnWatchlistClickListener listener;
         private Watchlist currentWatchlist;
 
-        public WatchlistViewHolder(@NonNull View itemView,
+        public WatchlistViewHolder(@NonNull ItemWatchlistBinding binding,
                                    OnWatchlistClickListener listener) {
-            super(itemView);
+            super(binding.getRoot());
             this.listener = listener;
-            watchlistName = itemView.findViewById(R.id.watchlistName);
+            this.binding = binding;
 
             itemView.setOnClickListener(v -> {
                 if (listener != null && currentWatchlist != null) {
@@ -79,7 +81,7 @@ public class WatchlistAdapter extends ListAdapter<Watchlist, WatchlistAdapter.Wa
 
         public void bind(Watchlist watchlist) {
             this.currentWatchlist = watchlist;
-            watchlistName.setText(watchlist.getName());
+            binding.watchlistName.setText(watchlist.getName());
         }
     }
 }
