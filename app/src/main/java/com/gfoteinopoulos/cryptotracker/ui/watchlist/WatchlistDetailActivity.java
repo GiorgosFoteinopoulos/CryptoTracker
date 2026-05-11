@@ -8,18 +8,21 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
-import com.gfoteinopoulos.cryptotracker.R;
+
+import com.gfoteinopoulos.cryptotracker.databinding.ActivityWatchlistDetailBinding;
 import com.gfoteinopoulos.cryptotracker.ui.market.CoinAdapter;
 import com.gfoteinopoulos.cryptotracker.viewmodel.WatchlistViewModel;
-import com.google.android.material.appbar.MaterialToolbar;
+
 
 public class WatchlistDetailActivity extends AppCompatActivity implements CoinAdapter.OnCoinClickListener {
 
     private static final String EXTRA_WATCHLIST_ID = "watchlist_id";
     private static final String EXTRA_WATCHLIST_NAME = "watchlist_name";
+
+    private ActivityWatchlistDetailBinding binding;
 
     private WatchlistViewModel viewModel;
     private CoinAdapter adapter;
@@ -35,27 +38,26 @@ public class WatchlistDetailActivity extends AppCompatActivity implements CoinAd
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_watchlist_detail);
+        binding = ActivityWatchlistDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         watchlistId = getIntent().getIntExtra(EXTRA_WATCHLIST_ID, -1);
         String watchlistName = getIntent().getStringExtra(EXTRA_WATCHLIST_NAME);
         android.util.Log.d("CryptoTracker_Debug",
                 "WatchlistDetail opened with watchlistId: " + watchlistId + " name: " + watchlistName);
 
-        MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(watchlistName);
         }
-        toolbar.setNavigationIconTint(0xFFFFFFFF);
-        toolbar.setTitleTextColor(0xFFFFFFFF);
+        binding.toolbar.setNavigationIconTint(0xFFFFFFFF);
+        binding.toolbar.setTitleTextColor(0xFFFFFFFF);
 
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         adapter = new CoinAdapter(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
 
         viewModel = new ViewModelProvider(this).get(WatchlistViewModel.class);
 
@@ -63,9 +65,9 @@ public class WatchlistDetailActivity extends AppCompatActivity implements CoinAd
             viewModel.getCoinsInWatchlist(watchlistId).observe(this, coins -> {
                 if (coins != null && !coins.isEmpty()) {
                     adapter.submitList(new java.util.ArrayList<>(coins));
-                    findViewById(R.id.emptyText).setVisibility(View.GONE);
+                    binding.emptyText.setVisibility(View.GONE);
                 } else {
-                    findViewById(R.id.emptyText).setVisibility(View.VISIBLE);
+                   binding.emptyText.setVisibility(View.VISIBLE);
                 }
             });
 
