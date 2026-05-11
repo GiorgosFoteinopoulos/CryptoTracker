@@ -3,19 +3,13 @@ package com.gfoteinopoulos.cryptotracker;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
 
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.gfoteinopoulos.cryptotracker.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.gfoteinopoulos.cryptotracker.database.entity.Coin;
 import com.gfoteinopoulos.cryptotracker.ui.market.CoinAdapter;
@@ -23,23 +17,21 @@ import com.gfoteinopoulos.cryptotracker.ui.search.SearchActivity;
 import com.gfoteinopoulos.cryptotracker.ui.watchlist.WatchlistActivity;
 import com.gfoteinopoulos.cryptotracker.viewmodel.MarketViewModel;
 
-import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoinClickListener {
 
+    private ActivityMainBinding binding;
     private MarketViewModel viewModel;
     private CoinAdapter adapter;
-    private SwipeRefreshLayout swipeRefresh;
-    private ProgressBar progressBar;
-    private TextView errorText;
 
-    private LinearLayout emptyState;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         setupViews();
         setupViewModel();
@@ -48,20 +40,15 @@ public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoi
     }
 
     private void setupViews() {
-        swipeRefresh = findViewById(R.id.swipeRefresh);
-        progressBar = findViewById(R.id.progressBar);
-        errorText = findViewById(R.id.errorText);
-        emptyState = findViewById(R.id.emptyState);
+            adapter = new CoinAdapter(this);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        adapter = new CoinAdapter(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new androidx.recyclerview.widget.DefaultItemAnimator());
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setItemAnimator(new androidx.recyclerview.widget.DefaultItemAnimator());
 
-        swipeRefresh.setOnRefreshListener(() -> {
+        binding.swipeRefresh.setOnRefreshListener(() -> {
             viewModel.fetchTopCoins();
-            swipeRefresh.setRefreshing(false);
+            binding.swipeRefresh.setRefreshing(false);
         });
     }
 
@@ -71,31 +58,30 @@ public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoi
         viewModel.getAllCoins().observe(this, coins -> {
             if (coins != null && !coins.isEmpty()) {
                 adapter.submitListWithHeader("Top Cryptocurrencies", coins);
-                emptyState.setVisibility(View.GONE);
+                binding.emptyState.setVisibility(View.GONE);
             } else {
                 adapter.submitList(null);
-                emptyState.setVisibility(View.VISIBLE);
+                binding.emptyState.setVisibility(View.VISIBLE);
             }
         });
         viewModel.getErrorMessage().observe(this, error -> {
             if (error != null && !error.isEmpty()) {
-                errorText.setVisibility(View.VISIBLE);
-                errorText.setText(error);
-                emptyState.setVisibility(View.GONE);
+                binding.errorText.setVisibility(View.VISIBLE);
+                binding.errorText.setText(error);
+                binding.emptyState.setVisibility(View.GONE);
             } else {
-                errorText.setVisibility(View.GONE);
+                binding.errorText.setVisibility(View.GONE);
             }
         });
         viewModel.fetchTopCoins();
     }
 
     private void setupTabs() {
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("TOP 100"));
-        tabLayout.addTab(tabLayout.newTab().setText("Gainers"));
-        tabLayout.addTab(tabLayout.newTab().setText("Losers"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("TOP 100"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Gainers"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Losers"));
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 adapter.resetAnimation();
@@ -127,10 +113,10 @@ public class MainActivity extends AppCompatActivity implements CoinAdapter.OnCoi
         });
     }
     private void setupBottomNavigation() {
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
-        bottomNav.setSelectedItemId(R.id.nav_market);
 
-        bottomNav.setOnItemSelectedListener(item -> {
+        binding.bottomNavigation.setSelectedItemId(R.id.nav_market);
+
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_search) {
                 startActivity(new Intent(this, SearchActivity.class));
