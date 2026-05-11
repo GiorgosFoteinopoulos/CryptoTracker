@@ -10,20 +10,20 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.gfoteinopoulos.cryptotracker.R;
+import com.gfoteinopoulos.cryptotracker.databinding.ActivityWatchlistBinding;
 import com.gfoteinopoulos.cryptotracker.viewmodel.WatchlistViewModel;
 
 public class WatchlistActivity extends AppCompatActivity {
 
+    private ActivityWatchlistBinding binding;
     private WatchlistViewModel viewModel;
     private WatchlistAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_watchlist);
+        binding = ActivityWatchlistBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         setupViewModel();
         setupViews();
@@ -31,20 +31,20 @@ public class WatchlistActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toolbar.setNavigationIconTint(0xFFFFFFFF);
-        toolbar.setTitleTextColor(0xFFFFFFFF);
+        binding.toolbar.setNavigationIconTint(0xFFFFFFFF);
+        binding.toolbar.setTitleTextColor(0xFFFFFFFF);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
         adapter = new WatchlistAdapter(watchlist -> {
             WatchlistDetailActivity.start(this, watchlist.getId(), watchlist.getName());
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
 
         ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
@@ -64,10 +64,10 @@ public class WatchlistActivity extends AppCompatActivity {
             }
         };
 
-        new ItemTouchHelper(swipeCallback).attachToRecyclerView(recyclerView);
+        new ItemTouchHelper(swipeCallback).attachToRecyclerView(binding.recyclerView);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(v -> showCreateWatchlistDialog());
+
+        binding.fab.setOnClickListener(v -> showCreateWatchlistDialog());
     }
 
     private void setupViewModel() {
