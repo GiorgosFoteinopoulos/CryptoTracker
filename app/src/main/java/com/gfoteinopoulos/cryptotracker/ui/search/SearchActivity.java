@@ -1,6 +1,6 @@
 package com.gfoteinopoulos.cryptotracker.ui.search;
 
-import android.app.AlertDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -10,62 +10,60 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.gfoteinopoulos.cryptotracker.R;
 import com.gfoteinopoulos.cryptotracker.database.entity.Coin;
+import com.gfoteinopoulos.cryptotracker.databinding.ActivitySearchBinding;
 import com.gfoteinopoulos.cryptotracker.ui.market.CoinAdapter;
 import com.gfoteinopoulos.cryptotracker.viewmodel.SearchViewModel;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
 
 public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnCoinClickListener {
+
+    private ActivitySearchBinding binding;
     private SearchViewModel viewModel;
     private CoinAdapter adapter;
-    private RecyclerView recyclerView;
     private boolean isGridView = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        binding = ActivitySearchBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         setupViews();
         setupViewModel();
     }
 
     private void setupViews() {
-        MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Search");
         }
-        toolbar.setNavigationIconTint(0xFFFFFFFF);
-        toolbar.setTitleTextColor(0xFFFFFFFF);
+        binding.toolbar.setNavigationIconTint(0xFFFFFFFF);
+        binding.toolbar.setTitleTextColor(0xFFFFFFFF);
 
 
-        recyclerView = findViewById(R.id.recyclerView);
+
         adapter = new CoinAdapter(this);
         adapter.setUseDarkHeader(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
 
-        MaterialButton toggleButton = findViewById(R.id.toggleViewButton);
-        toggleButton.setOnClickListener(v -> toggleView());
 
-        MaterialButton filterButton = findViewById(R.id.filterButton);
-        filterButton.setOnClickListener(v -> showPriceFilterDialog());
+        binding.toggleViewButton.setOnClickListener(v -> toggleView());
 
-        SearchView searchView = findViewById(R.id.searchView);
-        int searchTextId = searchView.getContext().getResources()
+
+        binding.filterButton.setOnClickListener(v -> showPriceFilterDialog());
+
+
+        int searchTextId = binding.searchView.getContext().getResources()
                         .getIdentifier("android:id/search_src_text", null, null);
-        android.widget.TextView searchText = searchView.findViewById(searchTextId);
+        android.widget.TextView searchText = binding.searchView.findViewById(searchTextId);
         if (searchText != null) {
             searchText.setHintTextColor(0xFFAAAAAA);
             searchText.setTextColor(0xFFFFFFFF);
         }
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 viewModel.setSearchQuery(query);
@@ -82,13 +80,12 @@ public class SearchActivity extends AppCompatActivity implements CoinAdapter.OnC
 
     private void toggleView() {
         isGridView = !isGridView;
-        MaterialButton toggleButton = findViewById(R.id.toggleViewButton);
         if (isGridView) {
             int columns = calculateColumns();
-            recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
+            binding.recyclerView.setLayoutManager(new GridLayoutManager(this, columns));
             adapter.setViewType(CoinAdapter.VIEW_TYPE_GRID);
         } else {
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter.setViewType(CoinAdapter.VIEW_TYPE_COIN);
         }
     }
