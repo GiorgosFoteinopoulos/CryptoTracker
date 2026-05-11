@@ -13,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gfoteinopoulos.cryptotracker.R;
 import com.gfoteinopoulos.cryptotracker.database.entity.Coin;
+import com.gfoteinopoulos.cryptotracker.databinding.ItemCoinBinding;
+import com.gfoteinopoulos.cryptotracker.databinding.ItemCoinGridBinding;
+import com.gfoteinopoulos.cryptotracker.databinding.ItemHeaderBinding;
+import com.gfoteinopoulos.cryptotracker.databinding.ItemHeaderDarkBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,15 +105,19 @@ public class CoinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == VIEW_TYPE_HEADER) {
-            int layoutId = useDarkHeader ? R.layout.item_header_dark : R.layout.item_header;
-            View view = inflater.inflate(layoutId, parent, false);
-            return new HeaderViewHolder(view);
+            if (useDarkHeader) {
+                ItemHeaderDarkBinding binding = ItemHeaderDarkBinding.inflate(inflater, parent, false);
+                return new HeaderViewHolder(binding);
+            } else {
+                ItemHeaderBinding binding = ItemHeaderBinding.inflate(inflater, parent, false);
+                return new HeaderViewHolder(binding);
+            }
         } else if (viewType == VIEW_TYPE_GRID) {
-            View view = inflater.inflate(R.layout.item_coin_grid, parent, false);
-            return new CoinViewHolder(view, listener);
+            ItemCoinGridBinding binding = ItemCoinGridBinding.inflate(inflater, parent, false);
+            return new CoinViewHolder(binding, listener);
         } else {
-            View view = inflater.inflate(R.layout.item_coin, parent, false);
-            return new CoinViewHolder(view, listener);
+            ItemCoinBinding binding = ItemCoinBinding.inflate(inflater, parent, false);
+            return new CoinViewHolder(binding, listener);
         }
     }
 
@@ -142,9 +150,14 @@ public class CoinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
         private final TextView headerText;
 
-        public HeaderViewHolder(@NonNull View itemView) {
-            super(itemView);
-            headerText = itemView.findViewById(R.id.headerText);
+        public HeaderViewHolder(@NonNull ItemHeaderBinding binding) {
+            super(binding.getRoot());
+            headerText = binding.headerText;
+        }
+
+        public HeaderViewHolder(@NonNull ItemHeaderDarkBinding binding) {
+            super(binding.getRoot());
+            headerText = binding.headerText;
         }
 
         public void bind(String header) {
@@ -161,15 +174,28 @@ public class CoinAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         private final OnCoinClickListener listener;
         private Coin currentCoin;
 
-        public CoinViewHolder(@NonNull View itemView, OnCoinClickListener listener) {
-            super(itemView);
+        public CoinViewHolder(@NonNull ItemCoinBinding binding, OnCoinClickListener listener) {
+            super(binding.getRoot());
             this.listener = listener;
             coinImage = itemView.findViewById(R.id.coinImage);
             coinName = itemView.findViewById(R.id.coinName);
             coinSymbol = itemView.findViewById(R.id.coinSymbol);
             coinPrice = itemView.findViewById(R.id.coinPrice);
             coinChange = itemView.findViewById(R.id.coinChange);
+            attachClickListener();
+        }
+        public CoinViewHolder(@NonNull ItemCoinGridBinding binding, OnCoinClickListener listener) {
+            super(binding.getRoot());
+            this.listener = listener;
+            this.coinImage = binding.coinImage;
+            this.coinName = binding.coinName;
+            this.coinSymbol = binding.coinSymbol;
+            this.coinPrice = binding.coinPrice;
+            this.coinChange = binding.coinChange;
+            attachClickListener();
+            }
 
+            private void attachClickListener() {
             itemView.setOnClickListener(v -> {
                 if (listener != null && currentCoin != null) {
                     listener.onCoinClick(currentCoin);
